@@ -1,71 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test</title>
-  </head>
-  <body>
-    <video id="myVideo" width="800" height="400" controls autoplay>
-      <source src="src/video/balls_test.webm" type="video/webm" />
-    </video>
-    <h1>Balls:</h1>
-    <div id="sounds"></div>
 
-    <script>
-      const scores = {
-        pick2: "95",
-        pick3: "469",
-        pick4: "5854",
-      };
-      const results = [];
-      const vid = document.querySelector("#myVideo");
-      vid.onplay = function () {
-        displayProperties();
-        console.log("Inicia script");
-      };
-      const container = document.querySelector("#sounds");
-      let ballIndex = 0;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test</title>
+</head>
 
-      for (const pick in scores) {
-        const numbers = scores[pick].split("");
-        results.push(...numbers);
+<body>
+  <video id="myVideo" width="800" height="400" controls autoplay>
+    <source src="src/video/balls_test.webm" type="video/webm" />
+  </video>
+  <h1>Balls:</h1>
+  <div id="sounds"></div>
+
+  <script>
+    const scores = {
+      pick2: "93",
+      pick3: "054",
+      pick4: "2072"
+    };
+    const results = [];
+    const vid = document.querySelector("#myVideo");
+    vid.onplay = function () {
+      displayProperties();
+      console.log("Inicia script");
+    };
+    const container = document.querySelector("#sounds");
+    let ballIndex = 0;
+
+    for (const pick in scores) {
+      const numbers = scores[pick].split("");
+      results.push(...numbers);
+    }
+
+    const genAudioDisplay = (ballIndex) => {
+      container.innerHTML +=
+        ballIndex < results.length - 1
+          ? `${results[ballIndex] + ", "}`
+          : `${results[ballIndex] + "."}`;
+      const audio = new Audio(`src/audio/${results[ballIndex]}.mp3`);
+      audio.play();
+    };
+
+    const balls = {
+      first_ball: 37.58,
+      second_ball: 38.17,
+      third_ball: 43.89,
+      fourth_ball: 44.6,
+      fifth_ball: 45.25,
+      sixth_ball: 55.2,
+      seventh_ball: 55.67,
+      eighth_ball: 56.2,
+      ninth_ball: 56.8,
+    };
+
+    function displayProperties() {
+      for (const ball in balls) {
+        setTimeout(
+          (ball) => {
+            console.log(`Time: ${balls[ball]}s, Property: ${ball}`);
+            genAudioDisplay(ballIndex);
+            ballIndex++;
+          },
+          balls[ball] * 1000,
+          ball
+        );
       }
+    }
+  </script>
+</body>
 
-      const genAudioDisplay = (ballIndex) => {
-        container.innerHTML +=
-          ballIndex < results.length - 1
-            ? `${results[ballIndex] + ", "}`
-            : `${results[ballIndex] + "."}`;
-        const audio = new Audio(`src/audio/${results[ballIndex]}.mp3`);
-        audio.play();
-      };
-
-      const balls = {
-        first_ball: 21.58,
-        second_ball: 22.17,
-        third_ball: 27.89,
-        fourth_ball: 28.6,
-        fifth_ball: 29.25,
-        sixth_ball: 39.2,
-        seventh_ball: 39.67,
-        eighth_ball: 40.2,
-        ninth_ball: 40.8,
-      };
-
-      function displayProperties() {
-        for (const ball in balls) {
-          setTimeout(
-            (ball) => {
-              console.log(`Time: ${balls[ball]}s, Property: ${ball}`);
-              genAudioDisplay(ballIndex);
-              ballIndex++;
-            },
-            balls[ball] * 1000,
-            ball
-          );
-        }
-      }
-    </script>
-  </body>
 </html>
