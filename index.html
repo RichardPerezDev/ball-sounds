@@ -20,9 +20,12 @@
       pick3: "054",
       pick4: "2072"
     };
+    let music;
     const results = [];
     const vid = document.querySelector("#myVideo");
     vid.onplay = function () {
+      music = new Audio('src/audio/lotto_sound_-60%_volume.mp3')
+      music.play()
       displayProperties();
       console.log("Inicia script");
     };
@@ -31,10 +34,22 @@
 
     for (const pick in scores) {
       const numbers = scores[pick].split("");
+      if (pick === "pick2") {
+        results.push("Pick_2")
+      }
+      if (pick === "pick3") {
+        results.push("Pick_3")
+      }
+      if (pick === "pick4") {
+        results.push("Pick_4")
+      }
       results.push(...numbers);
     }
 
+    console.log(results)
+
     const genAudioDisplay = (ballIndex) => {
+      music.pause()
       container.innerHTML +=
         ballIndex < results.length - 1
           ? `${results[ballIndex] + ", "}`
@@ -43,28 +58,31 @@
       audio.play();
     };
 
-    const balls = {
-      first_ball: 34.80,
-      second_ball: 35.28,
-      third_ball: 41.20,
-      fourth_ball: 41.80,
-      fifth_ball: 42.55,
-      sixth_ball: 52.80,
-      seventh_ball: 53.40,
-      eighth_ball: 53.90,
-      ninth_ball: 54.35,
+    const playSeconds = {
+      pick_two: 50,
+      first_ball: 53,
+      second_ball: 54,
+      pick_three: 56,
+      third_ball: 57,
+      fourth_ball: 58,
+      fifth_ball: 59,
+      pick_four: 61,
+      sixth_ball: 62,
+      seventh_ball: 63,
+      eighth_ball: 64,
+      ninth_ball: 65,
     };
 
     function displayProperties() {
-      for (const ball in balls) {
+      for (const seconds in playSeconds) {
         setTimeout(
-          (ball) => {
-            console.log(`Time: ${balls[ball]}s, Property: ${ball}`);
+          (seconds) => {
+            console.log(`Time: ${playSeconds[seconds]}s, Property: ${seconds}`);
             genAudioDisplay(ballIndex);
             ballIndex++;
           },
-          balls[ball] * 1000,
-          ball
+          playSeconds[seconds] * 1000,
+          seconds
         );
       }
     }
